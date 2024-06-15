@@ -1,36 +1,26 @@
 #User function Template for python3
-import sys
-sys.setrecursionlimit(50000)
-# Tree Node
-class Node:
-    def __init__(self, val):
-        self.right = None
-        self.data = val
-        self.left = None
-        self.nextRight = None
+
+from collections import deque
+
 class Solution:
-    #Function to connect nodes at same level.
     def connect(self, root):
-        if not root:
-            return root
-        s=[root]
-        while s:
-            prev=None
-            n=len(s)
-            for i in range(n):
-                curr=s.pop(0)
-                if prev is not None:
-                    prev.nextRight=curr
-                prev=curr
-                if curr.left:
-                    s.append(curr.left)
-                if curr.right:
-                    s.append(curr.right)
-                
-            prev=None
-        return root
-
-
+        
+        dq = deque([root])
+        levels = []
+        while dq:
+            level = []
+            for _ in range(len(dq)):
+                cur = dq.popleft()
+                level.append(cur)
+                if cur.left:
+                    dq.append(cur.left)
+                if cur.right:
+                    dq.append(cur.right)
+            levels.append(level)
+            
+        for level in levels:
+            for a,b in zip(level, level[1:]):
+                a.nextRight = b
 
 #{ 
  # Driver Code Starts
@@ -118,17 +108,29 @@ def InOrder(root):
     InOrder(root.right) # do in order of right child
 
 def printSpecial(root):
-    if root==None:
-        return 
-    next_root=None
-    while root!=None:
-        print(root.data,end=" ")
-        if root.left and not next_root:
-            next_root=root.left
-        elif root.right and not next_root:
-            next_root=root.right
-        root=root.nextRight
-    printSpecial(next_root)
+    leftmost_node = root
+
+    while leftmost_node :
+        curr_node = leftmost_node
+        leftmost_node = None
+        if curr_node.left :
+            leftmost_node = curr_node.left
+        elif curr_node.right :
+            leftmost_node = curr_node.right
+
+        print(curr_node.data,end=" ")
+        curr_node=curr_node.nextRight
+        while curr_node:
+            print(curr_node.data,end=" ")
+            if leftmost_node==None:
+                if curr_node and curr_node.left:
+                    leftmost_node=curr_node.left
+            if leftmost_node==None:
+                if curr_node and curr_node.right:
+                    leftmost_node=curr_node.right
+                
+            curr_node = curr_node.nextRight
+    print()
 
 
     
@@ -140,7 +142,6 @@ if __name__=="__main__":
         obj = Solution();
         obj.connect(root)
         printSpecial(root)
-        print()
         InOrder(root)
         print()
         
