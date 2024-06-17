@@ -18,27 +18,70 @@
 		        self.next = None
 	}
 '''
+class Solution:
 
-#Function to find intersection point in Y shaped Linked Lists.
-def intersetPoint(head1,head2):
-    ptr=head1
-    while(ptr.next!=None):
-        ptr=ptr.next
-    ptr.next=head1
-    slow=head2
-    fast=head2
-    while(fast!=None and fast.next!=None):
-        slow=slow.next
-        fast=fast.next.next
-        if slow==fast:
-            break
-    if slow!=fast:
+    def intersetPoint(self,head1,head2):
+
+        p1=head1
+
+        p2=head2
+
+        
+
+        t1=10**3
+
+        t2=10**4
+
+        
+
+        while p1 and p2:
+
+            if p1!=p2:
+
+                if p1.data>t1:
+
+                    return p1.data-t2
+
+                if p2.data>t1:
+
+                    return p2.data-t2
+
+                p1.data+=t2
+
+                p2.data+=t2
+
+            else:
+
+                return p1.data
+
+            
+
+            p1=p1.next
+
+            p2=p2.next
+
+        while p1:
+
+            if p1.data>t1:
+
+                return p1.data-t2
+
+            p1=p1.next
+
+        
+
+        while p2:
+
+            if p2.data>t1:
+
+                return p2.data - t2
+
+            p2=p2.next
+
+        
+
         return -1
-    cur=head2
-    while(cur!=slow):
-        cur=cur.next
-        slow=slow.next
-    return slow.data
+
 #{ 
  # Driver Code Starts
 #Initial Template for Python 3
@@ -88,7 +131,9 @@ if __name__ == '__main__':
         b = LinkedList()  # create a new linked list 'b'.
         nodes_a = list(map(int, input().strip().split()))
         nodes_b = list(map(int, input().strip().split()))
-        nodes_common = list(map(int, input().strip().split()))
+        nodes_common = []
+        if(z!=0):
+            nodes_common = list(map(int, input().strip().split()))
 
         for x in nodes_a:
             node=Node(x)
@@ -103,7 +148,7 @@ if __name__ == '__main__':
             a.append(node)  # add to the end of the list a
             if i== 0:
                 b.append(node)  # add to the end of the list b, only the intersection
-        
-        print(intersetPoint(a.head,b.head))
+        ob=Solution()
+        print(ob.intersetPoint(a.head,b.head))
 
 # } Driver Code Ends
