@@ -1,36 +1,20 @@
 #User function Template for python3
 class Solution:
-	def __init__(self):
-        self.st = []
-    def empty(self):
-        return self.st ==[]
-    def push(self , ele):
-        self.st.append(ele)
-    def pop(self):
-        if self.empty():
-            return -1
-        else:
-            return self.st.pop()
-    def bracketNumbers(self, S):
-        ans =  []
-        c = 0
-        for i in range(len(S)):
-            if self.empty() and S[i] == '(':
-                c +=1
-                ans.append(c)
-                self.push(c)
-            elif S[i] == '(':
-                c +=1
-                ans.append(c)
-                self.push(c)
-            elif S[i].isalpha():
-                continue
-            else:
-                ele = self.st[-1]
-                ans.append(ele)
-                self.pop()
-        return ans
-
+    def bracketNumbers(self, str):
+        # code here
+        result = []
+        stack = []
+        count = 1
+        
+        for char in str:
+            if char == '(':
+                stack.append(count)
+                result.append(count)
+                count += 1
+            elif char == ')':
+                result.append(stack.pop())
+        
+        return result 
 #{ 
  # Driver Code Starts
 #Initial Template for Python 3
